@@ -1,0 +1,64 @@
+Exaucé K. Maruba
+
+18 Jan 2026
+
+## Types of Learning
+
+
+
+<img src="assets/004.png" alt="Type of Learning">
+
+- **Supervised learning:** models learn from labeled examples (input + correct output). Common tasks: classification (predict a class) and regression (predict a continuous value). Examples: image classification, house price prediction.
+- **Unsupervised learning:** models find structure in unlabeled data (no explicit targets). Tasks: clustering (k-means), dimensionality reduction (PCA, t-SNE), density estimation.
+- **Self-supervised learning:** a subset of unsupervised methods that create proxy tasks from the data itself (masked language modeling, contrastive learning). Very effective for pretraining.
+- **Reinforcement learning (RL):** an agent interacts with an environment, takes actions, and learns from reward signals to maximize long-term reward. Examples: game playing, robotics.
+- **Transfer learning:** reuse a model (or its features) trained on one task/data to accelerate learning on another task (fine-tuning a pretrained CNN for a new image dataset). Very powerful when labeled data for the target task is limited.
+
+### Differences (short)
+- **Supervised vs Unsupervised:** supervised uses labeled targets; unsupervised does not. Self-supervised creates labels from the data itself.
+- **Transfer learning:** leverages prior training to reduce required data/time for a new task.
+- **RL:** different learning protocol (trial-and-error, reward) and typically requires environment simulation.
+
+## What is deep learning actually used for? (Use cases)
+
+- Recommendation systems (user/item embeddings)
+- Machine translation (sequence-to-sequence, transformers)
+- Speech recognition and synthesis
+- Computer vision: image classification, object detection, instance/semantic segmentation
+- Natural language processing: text classification, question answering, summarization
+- Time-series forecasting, anomaly detection
+- Generative models: image/speech/text synthesis (GANs, VAEs, autoregressive, diffusion models)
+
+### Classification vs Regression
+- **Classification:** predict discrete labels (cats vs dogs). Common in CV and NLP.
+- **Regression:** predict continuous values (price, temperature).
+
+## What is PyTorch and why use it?
+
+- **What:** PyTorch is a popular deep learning framework (Python-first) that provides tensor operations, automatic differentiation, and a flexible model API.
+- **Why:** dynamic computation graph (easier debugging & research), large ecosystem (`torchvision`, `torchaudio`, `torchtext`), many pre-trained models, active community and wide adoption in research and industry.
+- **Practical:** write concise, performant training code, move tensors to GPU with `.to(device)` / `.cuda()`, export models for deployment with TorchScript or ONNX.
+- **History:** developed by FAIR (Facebook AI Research); widely used by research labs and companies.
+
+## What is a GPU / TPU? and what is CUDA?
+
+
+<img src="assets/005.png" alt="GPU / TPU ">
+
+- **GPU (Graphics Processing Unit):** hardware specialized for massively parallel numerical computations (matrix and vector ops). Ideal for deep learning training/inference.
+- **TPU (Tensor Processing Unit):** Google-designed accelerator optimized for large-scale tensor computations; often higher throughput for some workloads.
+- **CUDA:** NVIDIA's parallel computing platform and API enabling GPU acceleration (programming model, libraries like cuDNN for deep learning). PyTorch uses CUDA to run operations on NVIDIA GPUs.
+- **Other stacks:** AMD ROCm provides similar support for AMD GPUs; TPUs use XLA and require different runtimes (PyTorch/XLA bridges exist).
+
+### Examples / notes
+- **RTX 3080:** consumer NVIDIA GPU with strong FP32 performance, good for local training/experimentation.
+- **Why TPU?:** TPUs can be faster and more cost-effective at scale for specific models (large matrix multiplies, large-batch training), but require compatible tooling and sometimes code changes.
+- **PyTorch on TPU:** possible via `pytorch/xla`; common in cloud TPU environments.
+
+## Quick practical advice
+
+- Start with supervised ML basics: small datasets, simple models. Validate with held-out data.
+- Use transfer learning to bootstrap performance when labeled data is limited.
+- Choose frameworks and hardware based on scale: CPU for tiny experiments, GPU (CUDA) for most DL work, TPU for large-scale cloud training when supported.
+
+ 

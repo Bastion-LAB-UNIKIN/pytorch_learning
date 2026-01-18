@@ -1,0 +1,71 @@
+﻿Exaucé K. Maruba
+
+18 Jan 2026
+
+Link: https://www.youtube.com/watch?v=V_xro1bcAuA
+
+
+
+Machine learning transforms data into numerical representations and discovers patterns in those representations to make predictions or decisions.
+
+## AI (Artificial Intelligence)
+AI is the broad field that aims to create systems capable of performing tasks that normally require human intelligence.
+
+## Machine Learning
+Machine Learning (ML) is a set of techniques that enable computers to learn patterns from data and use those patterns for prediction, classification, or decision-making.
+
+## Deep Learning
+Deep Learning (DL) is a subset of ML that uses deep neural networks to automatically learn hierarchical features from raw data (images, audio, text, etc.).
+
+Notation:
+
+AI → ML → DL
+
+
+## Difference — Programming algorithms vs Machine Learning algorithms
+
+### Programming algorithm
+- An explicit set of rules written by a programmer (if/then, loops, sorting, search).
+- Behavior is defined directly by code; it is usually deterministic and easy to trace and debug.
+
+### Machine learning algorithm
+- A parameterized model that learns patterns from data (parameters are adjusted during training).
+- Behavior is produced by the learned parameters and the training process rather than explicit rules.
+
+### Practical contrasts
+- **Development:** Programming → write the logic; ML → collect and prepare data, choose a model, train and validate.
+- **Transparency:** Programming → usually transparent; ML/DL → can be a black box.
+- **Determinism:** Programming → often predictable; ML → depends on data, initialization and randomness.
+- **Validation:** Programming → unit tests and formal reasoning; ML → evaluation on validation/test sets using metrics.
+- **When to use:** Prefer programmed algorithms for simple, well-specified rules; use ML when patterns are complex or hard to specify.
+
+<img src="assets/001.png" alt="Programming Algo and ML Algo">
+
+## Why use Machine Learning (or Deep Learning)?
+
+### Summary
+Use Machine Learning (ML) or Deep Learning (DL) when the problem is better solved by learning from examples than by coding explicit rules.
+
+### Good reasons to use ML / DL
+- Complex problems where enumerating all rules is impossible or too costly — e.g., image recognition, object detection, natural language understanding.
+- Abundant data: with enough examples, models can discover subtle and generalizable patterns.
+- Changing environments: models can be retrained or updated to adapt to new conditions.
+- Discovering hidden insights: exploring large datasets where heuristics would be impractical.
+- Large-scale automation: repetitive tasks that are hard to encode with manual rules.
+
+### When to prefer a non-ML solution
+- If a simple, reliable rule-based system suffices, prefer it (more explainable, cheaper, easier to maintain).
+- If you have very little data, DL is usually not appropriate — start with classical methods (regression, random forests, XGBoost) or rules.
+- If explainability is critical (e.g., medical or legal decisions), avoid black-box models without interpretability mechanisms.
+- If errors are unacceptable without safety controls: ML can produce unexpected behaviors.
+
+### Practical rule-of-thumb
+1. Define the objective and success metric.
+2. Try a simple solution first (rules/heuristics).
+3. If necessary, test classical ML models on well-designed features.
+4. If performance remains insufficient and you have lots of data, explore DL.
+5. Always validate on separate datasets and measure robustness and uncertainty.
+
+### Final remarks
+- You can frame almost any problem as ML if you can: (a) represent inputs as numbers/tensors, (b) define a target or evaluation signal, and (c) collect sufficient examples.
+- Useful resource: Google Machine Learning Crash Course for practical guidance and checklists.

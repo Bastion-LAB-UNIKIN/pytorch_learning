@@ -1,0 +1,30 @@
+Exaucé K. Maruba
+
+18 Jan 2026
+
+## Anatomy of neural networks
+
+- **Input layer:** where data enters the network (raw or preprocessed). Examples: pixel arrays for images, spectrograms for audio, token embeddings for text.
+- **Hidden layers:** one or more intermediate layers that transform inputs and learn representations (features). Early hidden layers typically learn low-level patterns; deeper layers learn higher-level abstractions.
+- **Output layer:** produces the final prediction or representation (class probabilities, regression value, embedding). Outputs are mapped to human-interpretable results.
+- **Units / neurons:** each layer consists of units (neurons) that compute a weighted sum of their inputs plus a bias, then apply an activation function.
+
+<img src="assets/003.png" alt="anatomy of neural networks">
+
+### Data flow (concise)
+Inputs -> numerical encoding -> input layer -> hidden layers (transformations) -> output layer -> interpretation
+
+### Layer operations (linear + non-linear)
+- Each layer usually applies a linear operation (e.g., matrix multiply: weights × inputs + bias) followed by a non-linear activation (e.g., ReLU, sigmoid, tanh, softmax). The linear step alone cannot learn complex mappings; the non-linearity enables the network to approximate arbitrary functions.
+- Convolutional layers are linear operations with shared/local receptive fields; pooling and batch normalization are common additional operations.
+
+### ResNet152 — short explanation
+- ResNet152 is a deep convolutional neural network with 152 layers that introduced "residual" (skip) connections. Residual connections add the input of a block to its output (identity mapping), which eases gradient flow and stabilizes training for very deep networks.
+- Typical uses: image classification, feature extraction for transfer learning. Residual blocks help train deeper models without vanishing/exploding gradient issues.
+
+### Quick notes
+- Hidden layers learn hierarchical representations expressed by weights.
+- Inputs must be numerically encoded (tensors) to flow through the network.
+- Start simple: use shallow models first; use deep nets (e.g., ResNet) when data and compute permit.
+
+ 
