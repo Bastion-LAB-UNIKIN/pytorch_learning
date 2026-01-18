@@ -17,6 +17,8 @@ Machine Learning (ML) is a set of techniques that enable computers to learn patt
 ## Deep Learning
 Deep Learning (DL) is a subset of ML that uses deep neural networks to automatically learn hierarchical features from raw data (images, audio, text, etc.).
 
+Raw data are data in their original form as collected — without cleaning, transformation, or annotation.
+
 Notation:
 
 AI → ML → DL
