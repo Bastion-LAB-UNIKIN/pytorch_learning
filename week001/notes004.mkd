@@ -1,0 +1,92 @@
+Exaucé K. Maruba
+
+20 janv 2026
+
+
+# Tensors, Numerical Encoding, and Course Plan
+
+## Numerical encoding — pipeline overview
+
+Input (raw data) -> numerical encoding (vectors / tensors) -> model learns representations (patterns / features / weights) -> model outputs (predictions)
+
+A few short notes:
+- "Numerical encoding" means converting raw data (text, images, audio) into numbers that a model can process.
+- The model learns a representation of the data (features) by adjusting parameters during training.
+
+## What is a tensor?
+
+Intuitively:
+- A tensor is a generalization of scalars, vectors and matrices to N dimensions. Think of it as an N-dimensional array of numbers.
+- Examples:
+  - Scalar: 0-D tensor (e.g. a single number)
+  - Vector: 1-D tensor (e.g. [x, y, z])
+  - Matrix: 2-D tensor (e.g. image channels × pixels)
+  - 3-D tensor: color image with shape (channels, height, width)
+  - 4-D tensor: a batch of images with shape (batch, channels, height, width)
+
+Mathematically (brief):
+- In mathematics, a tensor can be defined as a multilinear map between vector spaces. In machine learning practice we usually treat tensors simply as multi-dimensional arrays of numbers with a shape and datatype.
+
+Key tensor properties (practical ML view):
+- **Shape**: the size along each dimension, e.g. (3, 224, 224).
+- **Dtype**: numeric type (float32, int64, etc.).
+- **Device**: where the tensor lives (CPU or GPU).
+- **Requires_grad** (PyTorch): whether operations on the tensor should be tracked for automatic differentiation.
+
+Why tensors matter:
+- Tensors are the primary data structure in deep learning frameworks (PyTorch, TensorFlow). Models compute with tensors and update tensor-valued parameters during training.
+
+### Minimal PyTorch example
+
+```python
+import torch
+
+# create a 2x2 tensor and track gradients
+x = torch.tensor([[1.0, 2.0], [3.0, 4.0]], requires_grad=True)
+
+# simple operation
+y = x * 2
+
+# reduction to scalar
+z = y.mean()
+
+# compute gradients
+z.backward()
+
+print('x:', x)
+print('z:', z.item())
+print('x.grad:', x.grad)
+```
+
+This shows creating tensors, performing operations, computing a scalar loss, and backpropagating to obtain gradients on `x`.
+
+## What we will cover (course topics)
+
+- PyTorch basics & fundamentals
+- Preprocessing data and converting it into tensors
+- Building and using pretrained deep learning models
+- Fitting models to data (training loop, loss, optimizer)
+- Making predictions with a model
+- Evaluating model predictions (metrics, validation)
+- Saving and loading models
+- Using a trained model on custom data
+
+## How to approach this course
+
+1. Code along — if in doubt, run the code.
+2. Explore and experiment — try variations and see results.
+3. Visualize what you don't understand — plotting helps intuition.
+4. Ask questions — even the ones that seem simple.
+5. Do the exercises — practice is essential.
+
+
+ <img src="assets/this_is_a_tensor.png" >
+
+
+
+## Resources
+
+- GitHub repo (example): mrdbourke/pytorch-deep-learning
+
+
+ 
