@@ -1,0 +1,96 @@
+ # Pytorch Fundamentals  
+21 janv 2026  
+Exaucé K. Maruba — colab.research.google.com
+
+## Général
+- `.ipynb` = "IPython Notebook" (format de notebook interactif utilisé par Jupyter/Colab).
+- Dans Colab : Runtime → Change runtime type → choisir GPU/TPU si disponible.
+- Commande utile : `!nvidia-smi` — affiche l'état des GPUs, utilisation mémoire, versions du driver CUDA, processus. "smi" = System Management Interface.
+
+Pour vérifier CUDA et GPU en Python (PyTorch) :
+```python
+import torch
+print(torch.__version__)           # version PyTorch
+print(torch.version.cuda)          # version CUDA supportée par PyTorch
+print(torch.cuda.is_available())   # True si GPU utilisable
+device = "cuda" if torch.cuda.is_available() else "cpu"
+```
+
+## Packages essentiels
+```python
+import torch
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+```
+
+## Tenseurs (tensors)
+Un tenseur = une généralisation des scalaires, vecteurs et matrices (tableaux N-dimensionnels).
+
+- Scalar (0D) :
+```python
+scalar = torch.tensor(7)
+scalar.ndim         # 0
+scalar.item()       # récupérer comme int Python
+```
+
+- Vecteur (1D) :
+```python
+vector = torch.tensor([7, 7, 3])
+vector.ndim         # 1
+vector.shape         # torch.Size([3])
+```
+Un vecteur a magnitude et direction (si interprété comme vecteur mathématique ).
+
+- Matrice (2D) :
+```python
+MATRIX = torch.tensor([[7, 8],
+                       [8, 10]])
+MATRIX.ndim          # 2
+MATRIX.shape         # torch.Size([2, 2])
+MATRIX[1]            # deuxième ligne: tensor([8, 10])
+```
+
+- Tenseur N-D :
+```python
+TENSOR = torch.tensor([[[1,2,3],
+                        [2,3,2],
+                        [3,8,9]]])   # shape (1,3,3)
+TENSOR.ndim          # 3
+TENSOR.shape         # torch.Size([1, 3, 3])
+# Interprétation: 1 bloc de 3x3 (axe0=1, axe1=3, axe2=3)
+```
+
+## Tenseurs aléatoires
+- Utiles pour initialiser les poids d'un réseau.
+```python
+random_tensor = torch.rand(3,4)
+random_image_size_tensor = torch.rand(size=(224,224,3))  # H,W,channels (RGB)
+```
+"random" = valeurs tirées uniformément [0,1).
+
+
+
+<img src="assets/tensor_dim_shape.png">
+
+## Zéros, uns, séquences
+```python
+zeros = torch.zeros(size=(3,4))
+ones  = torch.ones(size=(3,4))
+ones.dtype            # dtype, ex: torch.float32
+
+# Remplacer torch.range (déprécié) par torch.arange
+one_to_ten = torch.arange(start=0, end=1000, step=77)
+ten_zeros = torch.zeros_like(one_to_ten)
+```
+
+## Types et précision (dtype)
+- Exemples : torch.float32 (FP32), torch.float16 (FP16), torch.int64, ...
+- Précision = nombre de bits pour représenter les valeurs (ex: FP32 = 32 bits). Plus faible précision → calculs plus rapides et moins de mémoire, mais risques d'erreurs numériques.
+```python
+float_32_tensor = torch.tensor([3.0, 6.0, 9.0], dtype=torch.float32, device=device, requires_grad=False)
+```
+
+ 
+- Toujours vérifier `torch.cuda.is_available()` avant d'utiliser `device="cuda"`.
+- Les shapes décrivent la taille le long de chaque axe (ex: (batch, height, width, channels) selon convention).
