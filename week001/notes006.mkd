@@ -1,0 +1,191 @@
+11 Février 2026 — PyTorch for Deep Learning
+
+# Types de tenseurs, précision et opérations courantes
+
+## Types de données (dtypes) et précision
+
+En informatique, la "précision" désigne le niveau de détail avec lequel une quantité est représentée. Pour les tenseurs, le dtype (type de données) définit la précision.
+
+- `float32` (simple précision, 32 bits) : largement utilisé pour l'entraînement. Bon équilibre précision/performance.
+- `float16` (demi-précision, 16 bits) : moins précis, mais plus rapide et moins coûteux en mémoire sur certains accélérateurs (ex. GPU récents). Peut entraîner des problèmes de stabilité numérique.
+- `int32`, `int64` (ou `torch.long`) : types entiers utilisés pour indices, labels, etc.
+
+Différence entre 32-bit et 16-bit float :
+
+- Plage dynamique et précision : `float32` a plus d'exposants et de mantisse → meilleure précision et plage dynamique.
+- `float16` réduit la mémoire et peut accélérer les calculs sur du hardware spécialisé, mais peut provoquer des sous/overflow et perte d'information.
+
+## Trois erreurs fréquentes en PyTorch
+
+1. Tenseur avec le mauvais dtype.
+2. Tenseurs avec la mauvaise forme (shape).
+3. Tenseurs sur le mauvais device (CPU vs GPU).
+
+Vérifications utiles :
+
+- `tensor.dtype` → dtype
+- `tensor.shape` ou `tensor.size()` → shape
+- `tensor.device` → device
+- `tensor.requires_grad` → si on suit le gradient
+
+## Exemples et snippets
+
+```python
+import torch
+
+# Création d'un tenseur aléatoire
+some_tensor = torch.rand(3, 4)
+print(some_tensor)
+print(f"dtype: {some_tensor.dtype}")
+print(f"shape: {some_tensor.shape}")
+print(f"device: {some_tensor.device}")
+```
+
+### Changement de dtype
+
+```python
+float_32_tensor = torch.tensor([3.0, 6.0, 9.0], dtype=torch.float32)
+float_16_tensor = float_32_tensor.type(torch.float16)
+
+# Opérations entre dtypes : PyTorch effectue souvent une promotion vers le dtype le plus précis
+print(float_16_tensor, float_32_tensor)
+res = float_16_tensor * float_32_tensor
+print(res, res.dtype)
+
+# Opérations avec entiers
+int_32_tensor = torch.tensor([3, 6, 9], dtype=torch.int32)
+res2 = float_32_tensor * int_32_tensor  # promotion vers float32
+print(res2, res2.dtype)
+```
+
+### Gradient : activer / désactiver
+
+```python
+x = torch.tensor([1.0, 2.0, 3.0], requires_grad=True)
+y = x * 2
+z = y.sum()
+z.backward()
+print(x.grad)
+
+# Pour désactiver le calcul de gradient
+with torch.no_grad():
+    a = x * 3
+
+# ou
+xb = x.detach()
+```
+
+## Opérations élémentaires
+
+- Addition : `tensor + 10` ou `tensor.add(10)`
+- Multiplication élément-wise : `tensor * 10` ou `tensor.mul(10)`
+- Soustraction : `tensor - 10`
+
+```python
+tensor = torch.tensor([1, 2, 3])
+print(tensor + 10)
+print(tensor * 10)
+```
+
+## Multiplication matricielle
+
+Deux modes principaux :
+
+1. Multiplication élément-wise : `A * B`
+2. Produit matriciel / dot-product : `torch.matmul(A, B)` ou `A @ B`
+
+Exemple vecteur → scalaire (dot product) :
+
+```python
+v = torch.tensor([1.0, 2.0, 3.0])
+
+# par boucle (manuellement)
+value = 0.0
+for i in range(len(v)):
+    value += v[i] * v[i]
+print(value)
+
+# avec torch
+print(torch.matmul(v, v))
+```
+
+Règles de multiplication matricielle : l'intérieur des dimensions doit correspondre. Résultat : dimensions extérieures.
+
+Exemples de shapes :
+
+- (2,3) @ (3,2) -> (2,2)
+- (3,2) @ (2,3) -> (3,3)
+
+```python
+A = torch.rand(2, 3)
+B = torch.rand(3, 2)
+out = torch.matmul(A, B)
+print(A.shape, B.shape, out.shape)
+```
+
+Si les shapes ne correspondent pas, on peut transposer : `B.T`.
+
+```python
+torch.mm(A, B.T)  # mm est un alias de matmul
+```
+
+## Agrégations
+
+```python
+x = torch.arange(0, 100, 10)
+print(x.min(), x.max())
+print(x.sum())
+
+# mean nécessite souvent un dtype float
+print(x.type(torch.float32).mean())
+
+print(x.argmin(), x.argmax())
+```
+
+## Reshape, view, squeeze, unsqueeze, permute
+
+- `reshape(...)` : retourne un nouveau tenseur à la nouvelle forme (copie ou vue selon le cas)
+- `view(...)` : retourne une vue si la mémoire est contiguë
+- `squeeze()` : supprime les dimensions de taille 1
+- `unsqueeze(dim)` : ajoute une dimension de taille 1
+- `permute(...)` : réordonne les dimensions
+
+```python
+import torch
+ x = torch.arange(1, 10)
+print(x.shape)
+
+x_reshaped = x.reshape(1, 9)
+print(x_reshaped.shape)
+
+# ajouter/supprimer dimension
+xsq = x_reshaped.squeeze()
+print(xsq.shape)
+xsq2 = xsq.unsqueeze(0)
+print(xsq2.shape)
+
+# permute
+mat = torch.rand(2, 3, 4)
+print(mat.permute(2, 0, 1).shape)
+```
+
+## Conseils pratiques
+
+- Toujours vérifier `dtype`, `shape` et `device` quand vous avez une erreur.
+- Pour le training en `float16`, utilisez AMP (Automatic Mixed Precision) via `torch.cuda.amp` pour garder stabilité numérique.
+- Utilisez `tensor.to(device)` pour déplacer tenseurs entre CPU/GPU.
+
+## Exemple rapide résumé
+
+```python
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+data = torch.rand(4, 3, device=device, dtype=torch.float32)
+weights = torch.rand(3, 2, device=device, dtype=torch.float32)
+
+out = data @ weights
+print(out.shape)
+```
+
+---
+
+Fichier mis à jour : [notes006.mkd](notes006.mkd)

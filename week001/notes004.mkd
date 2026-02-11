@@ -86,7 +86,7 @@ This shows creating tensors, performing operations, computing a scalar loss, and
 
 ## Resources
 
-- GitHub repo (example): mrdbourke/pytorch-deep-learning
+- GitHub repo : mrdbourke/pytorch-deep-learning
 
 
  
